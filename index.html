@@ -18,6 +18,12 @@ body {
   margin-top: 100px;
 }
 
+#login input {
+  font-size: 16px;
+  padding: 8px;
+  width: 200px;
+}
+
 /* 阅读区域 */
 #reader {
   display: none;
@@ -46,6 +52,19 @@ body {
 #nav {
   text-align: center;
   margin-top: 20px;
+}
+
+#nav button,
+#nav select {
+  margin: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+#pageNum {
+  margin-top: 8px;
+  color: #888;
+  font-size: 13px;
 }
 
 button {
@@ -270,8 +289,11 @@ body {
 
 <div id="nav">
   <button onclick="prevPage()">上一页</button>
-  <span id="pageNum">1 / 3</span>
+
+  <select id="pageSelect" onchange="jumpPage(this.value)"></select>
+
   <button onclick="nextPage()">下一页</button>
+
 </div>
 
 </div>
@@ -298,8 +320,6 @@ function showPage(n) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page" + n).classList.add("active");
 
-  document.getElementById("pageNum").innerText = n + " / " + totalPages;
-
   // ⭐ 翻页回到顶部（关键）
   window.scrollTo(0, 0);
 }
@@ -320,6 +340,21 @@ function prevPage() {
   }
 }
 
+function jumpPage(n) {
+  currentPage = Number(n);
+  showPage(currentPage);
+}
+
+function initSelect() {
+  const select = document.getElementById("pageSelect");
+  for (let i = 1; i <= totalPages; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.text = i;
+    select.appendChild(option);
+  }
+}
+
 // 键盘翻页
 document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowRight") nextPage();
@@ -337,6 +372,27 @@ document.addEventListener("touchstart", function(e) {
   if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
 
+window.onload = function() {
+  initSelect();
+
+  const saved = localStorage.getItem("lastPage");
+  if (saved) {
+    currentPage = Number(saved);
+  }
+
+  showPage(currentPage);
+};
+
+function showPage(n) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + n).classList.add("active");
+
+  document.getElementById("pageNum").innerText = n + " / " + totalPages;
+
+  document.getElementById("pageSelect").value = n;
+
+  window.scrollTo(0, 0);
+}
 </script>
 
 </body>
