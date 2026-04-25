@@ -26,7 +26,9 @@ body {
 
 /* 阅读区域 */
 #reader {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+
   max-width: 800px;
   width: 100%;
   margin: 20px auto;
@@ -35,6 +37,13 @@ body {
   line-height: 2.1;
   font-size: 18px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
+
+  transition: opacity 0.2s;
+}
+
+#reader.show {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* 页面 */
@@ -309,7 +318,11 @@ function checkPassword() {
   const input = document.getElementById("password").value;
   if (input === correctPassword) {
     document.getElementById("login").style.display = "none";
-    document.getElementById("reader").style.display = "block";
+
+    const reader = document.getElementById("reader");
+    reader.classList.add("show");
+
+    window.scrollTo(0, 0);
   } else {
     alert("密码错误");
   }
