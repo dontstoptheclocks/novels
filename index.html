@@ -47,7 +47,7 @@
     background: #fff;
     padding: 25px 40px;
     line-height: 2.1;
-    font-size: 18px;
+    font-size: 16px;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
     min-height: 60vh;
   }
@@ -412,14 +412,12 @@
       <button onclick="prevPage()">上一页</button>
       <select id="pageSelect" onchange="jumpPage(this.value)"></select>
       <button onclick="nextPage()">下一页</button>
-      <div id="pageNum"></div>
     </div>
   </div>
 </div>
 
 <script>
-// 这里建议不要直接放 1236，可以稍微变一下，比如 12*103 这种简单的混淆
-const correctPassword = "1236"; 
+const correctPassword = "6321"; 
 
 let currentPage = 1;
 // 记得这里要手动修改成你实际的总页数
@@ -445,9 +443,7 @@ function showPage(n) {
   const targetPage = document.getElementById("page" + n);
   if(targetPage) targetPage.classList.add("active");
 
-  // 更新页码文字
-  const pageNumEl = document.getElementById("pageNum");
-  if(pageNumEl) pageNumEl.innerText = n + " / " + totalPages;
+
 
   // 更新下拉菜单选中的值
   const selectEl = document.getElementById("pageSelect");
@@ -485,7 +481,7 @@ function initSelect() {
   for (let i = 1; i <= totalPages; i++) {
     const option = document.createElement("option");
     option.value = i;
-    option.text = "第 " + i + " 页";
+    option.text = i;
     select.appendChild(option);
   }
 }
