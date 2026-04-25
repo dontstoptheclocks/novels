@@ -6,105 +6,76 @@
 <title>阅读页面</title>
 
 <style>
-body {
-  margin: 0;
-  background: #f5f5f5;
-  font-family: "Noto Serif SC", serif;
-}
+  body {
+    margin: 0;
+    background: #f5f5f5;
+    font-family: "Noto Serif SC", serif;
+    /* 禁止选中（防复制） */
+    user-select: none;
+    -webkit-user-select: none;
+  }
 
-/* 登录 */
-#login {
-  text-align: center;
-  margin-top: 100px;
-}
+  /* 登录页 */
+  #login {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #f5f5f5;
+    z-index: 100;
+  }
 
-#login input {
-  font-size: 16px;
-  padding: 8px;
-  width: 200px;
-}
+  #login input { font-size: 16px; padding: 10px; width: 220px; border: 1px solid #ddd; border-radius: 4px; }
+  #login button { padding: 8px 24px; font-size: 14px; cursor: pointer; background: #333; color: #fff; border: none; border-radius: 4px; }
 
-/* 阅读区域 */
-#reader {
-  visibility: hidden;
-  opacity: 0;
+  /* 阅读器总容器 */
+  #reader {
+    display: none;
+    background: #f5f5f5;
+    min-height: 100vh;
+  }
 
-  max-width: 800px;
-  width: 100%;
-  margin: 20px auto;
-  background: #fff;
-  padding: 25px;
-  line-height: 2.1;
-  font-size: 18px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  .title { text-align: center; padding-top: 40px; color: #333; }
 
-  transition: opacity 0.2s;
-}
+  /* 内容卡片 */
+  #readerContent {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 25px 40px;
+    line-height: 2.1;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    min-height: 60vh;
+  }
 
-#reader.show {
-  visibility: visible;
-  opacity: 1;
-}
+  /* 页面控制 */
+  .page { display: none; white-space: pre-wrap; overflow-wrap: break-word; }
+  .active { display: block; }
 
-/* 页面 */
-.page {
-  display: none;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-}
-
-.active {
-  display: block;
-}
-
-/* 翻页按钮 */
-#nav {
-  text-align: center;
-  margin-top: 20px;
-}
-
-#nav button,
-#nav select {
-  margin: 6px;
-  padding: 8px 12px;
-  font-size: 14px;
-}
-
-#pageNum {
-  margin-top: 8px;
-  color: #888;
-  font-size: 13px;
-}
-
-button {
-  padding: 8px 14px;
-  margin: 8px;
-  font-size: 14px;
-}
-
-/* 禁止选中（防复制） */
-body {
-  user-select: none;
-  -webkit-user-select: none;
-}
+  /* 导航栏 */
+  #nav { text-align: center; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+  #nav button, #nav select { margin: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  #pageNum { margin-top: 8px; color: #888; font-size: 13px; }
 </style>
 </head>
 
 <body>
 
-<!-- 密码页 -->
 <div id="login">
   <h2>请输入密码</h2>
-  <input type="password" id="password">
+  <input type="password" id="password" onkeydown="if(event.keyCode==13) checkPassword()">
   <button onclick="checkPassword()">进入</button>
 </div>
 
-<!-- 阅读器 -->
 <div id="reader">
+  <h1 class="title">どうか、神様。</h1>
 
-<h1 class="title">どうか、神様。</h1>
-
-<div id="page1" class="page active">
+  <div id="readerContent">
+    <div id="page1" class="page active">
 一刻不停地在笔记本上飞快书写。
 必须快一点。必须要赶快。
 每一分每一秒都弥足珍贵。
@@ -117,9 +88,9 @@ body {
 明明那样恳求过了。
 明明那样向神祈祷过了。
 所以我最讨厌神了。
-</div>
+    </div>
 
-<div id="page2" class="page">
+    <div id="page2" class="page">
 ■■■
 
 抬头望去，映入眼帘的是一栋古民宅。那是栋两层建筑，屋顶的瓦片感觉很少见。在乡下特有的宽大玄关旁，有一处长期无人打理、荒芜破败的院子。外墙或许翻修过，看起来尚算过得去，却掩盖不住那股陈旧感。也许是出于那对自尊心极强的父母之手，为了多少撑点门面才修整的吧。
@@ -169,9 +140,7 @@ body {
 他咔哧咔哧地抓着，仿佛要抠开额头上的伤痕一般。以前脸上受过的伤如今早已愈合，留下了巨大的疤痕。因为这显眼的伤疤，周围的人总觉得他阴森恐怖。那又怎样——实弥像是在自虐般，指甲抓得更用力了。
 直到皮肤裂开、鲜血流下，他才终于停手。清理掉指缝间的血迹和皮肉，他像是脱力般倒在床上。
 此后，直到父亲来叫他，实弥都纹丝不动地躺在那里。
-</div>
 
-<div id="page3" class="page">
 ■■■
 
 以初中毕业为契机，父亲突然宣布要搬家。
@@ -294,50 +263,203 @@ body {
 心中再次涌起那股莫名的焦虑。对于一向连孩子都不会纵容的实弥来说，如此在意一个孩子实属罕见。
 『哥哥』
 实弥捂住耳朵啧了一声。那孩子的声音仿佛还在耳畔回响。
-</div>
+    </div>
 
-<div id="nav">
-  <button onclick="prevPage()">上一页</button>
+    <div id="page3" class="page">
+■■■
 
-  <select id="pageSelect" onchange="jumpPage(this.value)"></select>
+能看到神社的窗户常年拉着窗帘。受此影响，房间里的空气总是浑浊且昏暗。实弥在一丝透入帘缝的微光中醒来。脑子还有些迷糊，他伸手拿过手机看时间。还没到该起床的点。虽然想睡个回笼觉，但意识却越来越清醒。无奈之下，实弥走下了床。随手抓了抓乱蓬蓬的头发，换上了校服。
+今天身体依旧沉重。镜中的脸像死人一样，显得那道疤痕格外清晰。实弥轻轻撩起头发，把伤疤露了出来。因为他知道只要露出这道疤，别人就不会凑上来。
+「……」
+在空无一人的客厅里翻找早餐。找到了两片不知道什么时候买的面包，抹上所剩无几的果酱吃了下去。餐桌上放着五万日元现金。实弥伸手去拿，准备塞进钱包。
+这时，他发现现金下面还压着一张纸条。
+『今天是去医院的日子。一定要去。』
+实弥忍不住啧了一声。他随即撕碎了母亲留下的纸条丢进垃圾桶。胃口全无，连带着面包也一起扔了。
+「……谁要去啊。」
+事到如今再去医院又能怎样。实弥拎起空荡荡的课包走出了家门。
+已步入深秋，叶子正渐渐染上色彩。在那满是红叶的小山上，今天也能看到那抹红色的鸟居。长年失修的神社破败不堪。在那座已经无人参拜的神社里，那个孩子今天也还在吗。守着一座被遗忘的神社，想必也很空虚吧。
+「……切……」
+意识到自己又在想那孩子的事，实弥摇了摇头。
+自从遇到那个奇怪的孩子已经过了一周。毕竟特意铺了垫子待在那儿，那孩子今天大概率也还在。
+「那又怎样……」
+虽然在心里否定了还会再见的可能，实弥的手却不自觉地捂住了一边耳朵。直到现在，那孩子的声音依然在脑海里挥之不去。闭上眼，连那张哭脸都清晰浮现，让他夜不能寐。
+虽然不想承认，但他确实非常在意那个孩子。
+在此之前，他从未对谁产生过兴趣，也从未想过要了解谁。他是个对自己、对他人都不感兴趣的人。这样一个人，竟然为了一个孩子纠结了一个星期，这让他感到了巨大的压力。
+『哥哥』
+光是回想起来就全身起鸡皮疙瘩。不知道为什么会这么在意，再这样下去估计要得失眠症了。
+「唉……」
+在意偶然遇到的孩子也太奇怪了。也许他对谁都这么说，也许对方早就忘了。他想了各种借口试图说服自己，告诉自己这是在浪费时间，却还是会想起那个孩子。
+实弥抓了抓头，叹了口气。他告诫自己赶紧忘掉，随后迈步走向了学校。
 
-  <button onclick="nextPage()">下一页</button>
 
-</div>
 
+「为什么……偏偏来了这儿……」
+实弥站在长长的石阶前，深深叹了口气。结果，今天一整天他都只是盯着教室窗外那座神社出神，脑子里全是那个孩子的事，甚至在课上连抖腿都停不下来。
+这一周来，他拼命想忘掉，却徒劳无功。精神变得极度不稳定，对物品撒气的次数也增加了。与其这样心烦意乱，不如干脆见个面把话挑明——他索性豁出去了。
+这个念头闪现的瞬间，他不顾还在上课径直站了起来。老师和同学都惊呆了，他却视若无睹，拎起书包走出教室。脑海中只剩下去那座神社这一个念头，脚步也由快步变成了疾跑。
+接着，他便笔直地、毫不犹豫地来到了石阶前。
+「……我到底在干嘛啊。」
+确认了一下时间，大概是两点左右。如果那孩子不是幽灵而是真实存在的，这会儿应该还在学校。凭着一股冲动来到这里，实弥却突然冷静了下来。
+「……回去吧。」
+他刚转身要走，却又转回了正面。他在原地徘徊，犹豫着去还是不去。最终，他下定决心去看看。反正回去了也还是会惦记那孩子，如果人不在，那正好可以死心了。
+短短一周，越往山上的树木红叶愈发浓郁。实弥仰望着如雨般飘落的枯叶，迈步而上。当鸟居清晰地出现在眼前时，实弥的脚步自然而然地停住了。
+「……」
+那孩子果然在。他还没注意到这边，正仰望着天空发呆。看到他在，实弥不知为何松了口气。紧接着，一阵紧张感猛地袭来。耳后阵阵发烫，实弥下意识地抓了抓头。
+面对小学生没必要躲藏，但也谈不上主动搭话。实弥重新迈开了步子。或许是察觉到了脚步声，玄弥猛地回头，随即站起身来。
+「……」
+玄弥带着满怀期待的目光等待着实弥，那架势仿佛随时都会招起手来。实弥此时才后知后觉地想：见了面之后打算怎么办？
+虽然是因为惦记这孩子才来的，但他根本不知道该和小学生聊些什么，更没打算陪他玩。但这孩子之前喊过「哥哥」，显然是把谁给认错了。首先必须消除这个误会。
+如果又被哭闹一场就麻烦了——实弥这样想着，踏上了最后一级石阶。紧接着，玄弥就像只小狗一样飞奔过来，用那双大眼睛盯着他看。实弥重新打量起玄弥的脸，确实长得很可爱，尤其是那双杏核眼非常讨人喜欢，比一般的孩子都要漂亮。然而，那道长长的伤疤却像是一个不和谐的音符，让人感到遗憾。虽然实弥自己并不在意，但世俗的眼光恐怕不会太友善。作为同样拥有伤疤的人，他对此感同身受，心隐隐作痛。
+正因如此他才确定：长相特征如此鲜明的孩子，自己绝不可能忘记。他可以断言，自己与这个叫不死川玄弥的少年是初次见面，绝非旧识。
+可玄弥确实认错了人。在这寒冷的天气里独自等待，那人对他来说一定非常重要吧。
+实弥的胸口感到一阵刺痛。他无视了这种违和感，开口问道：
+「……你……从那以后每天都来这儿吗？」
+玄弥轻轻点了点头。
+「一个人？」
+玄弥再次点头。这里是一处被遗忘的、冷清的地方，本不该是等待某人的场所。但玄弥脸上没有一丝寂寞，反而透着某种喜悦，似乎只要有人搭理他就很高兴。想必是寂寞太久了。
+「那、那个……」
+玄弥局促地抓着衣服。
+「我以为……你不会再来了……」
+明知可能等不到，却依然在等吗？实弥心想。
+「你能来……我很高兴。」
+一阵如重击般的酸楚袭来，实弥一言不发地按住了胸口。玄弥全身都在诉说着相见的喜悦，却丝毫没有察觉认错了人。这让他看起来愈发可怜。实弥从未对他人如此感同身受过。但他第一次对那个让如此纯真的孩子独自等待的人产生了愤怒。
+玄弥小小的身体忙碌着，把刚才坐的垫子重新铺整齐。
+「那个，请坐吧。」
+「……」
+「那个，还有茶哦。」
+「……」
+「还有书。」
+「……」
+「……虽然没有点心。」
+说着，玄弥怯生生地抬眼看过来。脸上分明写着「请别走」。面对快要哭出来的玄弥，实弥长长地叹了口气。即便认错了人，他也不是那种冷酷到能拔腿就走的人。实弥无奈地在那块小垫子上坐了下来。那只是一块铺在冷冰冰石头上的薄垫子，又硬又冷又窄，感觉糟糕透了。即便如此，玄弥还是笑眯眯地递上水壶里的茶。
+「请用清茶。」
+明明是个小学生，却知道这种客套词。茶味很淡，但还是温热的。
+实弥一边抿着茶，一边偷瞄玄弥。玄弥那双闪闪发亮的眼睛一直盯着他，视线炽热得让人有些不自在。那孩子的一举一动都充满了反应，简直像只猫。实弥终于受不了了，开门见山地说道：
+「抱歉，我真的一点也不认识你。应该是你认错人了，我先说清楚。」
+刚才还兴高采烈的玄弥，脸庞瞬间垮了下来，一副快要哭出来的样子。实弥感到一阵尴尬，但这种事没法撒谎。
+「没认错。」
+然而，玄弥摇了摇头，否定了实弥的话。
+「我一眼就认出是哥哥了。」
+「遗憾的是，并不是。」
+「可是，脸上的伤也是一样的。」
+看来玄弥等的那个人，脸上也有疤痕。实弥这才明白误会的由来，可心里却不知为何有些不是滋味。
+「脸上的伤只是偶然。我没有弟弟，是独生子。」
+「不对！我是哥哥的弟弟。」
+「我可没有过成为你哥哥的记忆。」
+「……即便如此，哥哥就是哥哥。」
+这孩子比预想中还要固执。到底是谁让他认错到这种程度？长得真的那么像吗？既然叫「哥哥」，这孩子肯定有个兄长。是失散了，还是已经不在人世了？
+「你……从什么时候开始在这里等那个『哥哥』的？」
+「……从上幼儿园察觉到的时候开始……就一直在这里等。」
+「哈？察觉到是什么意思？是那个『哥哥』离家出走了吗？」
+「……」
+面对沉默不语的玄弥，实弥察觉到他大概是被「哥哥」抛弃了。既然在这座神社等了这么久都没人来见他，重逢的希望基本等于零。
+「死心吧，你的『哥哥』不会来的。他至今都没来见过你不是吗？」
+「……唔！」
+玄弥僵住了。虽然觉得自己说得重了些，但实弥认为告诉他真相才是为他好。独自在这么冷清的地方死等，实在是太傻了。
+「『哥哥』不在了吗？」
+「啊，不在了吧。至少不是我。」
+「……这样啊……」
+「所以死心回家吧。待在这里只会感冒。」
+实弥自知这些话很自私。但他就是看不惯这孩子守着一个不可能回来的哥哥。为什么会这么生气，连他自己也不明白。为了掩饰焦躁，实弥伸手按住了不由自主抖动的腿。
+「你家里人呢？」
+玄弥依旧保持着跌坐的姿势回答道：
+「妈妈去世了……爸爸还在。」
+「那更得回家了，家里人会担心的。」
+「爸爸在工作，家里只有我一个人。」
+说着，玄弥开始收拾实弥喝过的茶具。实弥并不了解玄弥的家境，即使家里没人等，催促他回家才是上策。可实弥却无法再说出更重的话了。因为他自己也是个不想回家的人。这无关道理，也并非青春期的逆反。想必玄弥心中也有同样的感受吧。
+「我一直在等『哥哥』。一直等……」
+玄弥幽幽地开口。
+「虽然一开始很吃惊，但我已经做好心理准备了。而且，能见到『哥哥』我就已经很幸福了。」
+「……所以我说那是你认错人了……我不是你『哥哥』。」
+面对实弥的话，玄弥露出了一个想哭却在强笑的表情。明明受了伤却还要强颜欢笑，那副样子凄惨得让人不忍卒睹。
+「那……能不能请你当我的哥哥？」
+「哈？」
+面对这突如其来的提议，实弥惊呆了。
+「……你是要我假装你哥？」
+「嗯。」
+这个荒诞的提议让实弥实在无法接受。
+「凭什么我要干那种事啊。」
+「求求你了。拜托你了。」
+玄弥深深地低下了头。被小学生这样行礼，实弥一点也高兴不起来。
+「……你这家伙……这种事可不是能随便求一个陌生人的。」
+「可是我就想要这个哥哥。」
+「虽然不知道你有什么苦衷，但要找玩伴就去找别人。」
+「不是玩游戏。」
+玄弥语气坚定。那表情严肃得不像个小学生。实弥切实感受到了他不是在开玩笑，烦躁地抓了抓头。他不明白为什么这孩子如此执着于「哥哥」。或许是因为一直没人可以求助，才在走投无路下选中了自己，但确实是被个麻烦的孩子缠上了。看样子如果不答应，玄弥绝不会罢休。
+实弥叹了口气。
+「听好了……我不是你『哥哥』。就算我假装『哥哥』，你那个真正的『哥哥』也不会回来。」
+「没关系。」
+「做这种事，不觉得空虚吗？」
+「我会很高兴。」
+「高兴什么的……」
+「只要一小段时间就好。」
+「还要限期执行？」
+「嗯，到我生日为止。过了生日，我绝对不会再打扰你。」
+「生日什么时候？」
+「一月左右。」
+「什么叫左右……说清楚点。」
+「秘密。」
+「你这家伙……」
+到一月大概还有三个月不到。这段时间都要陪这个孩子玩「过家家」。对自己来说毫无益处，倒不如说全是麻烦。答应下来才叫奇怪。
+这时，玄弥抓住了实弥的手。玄弥的手小小的，冷冰冰的，可以看出他一直待在这里。
+「拜托你了。」
+玄弥紧紧握住实弥的手，低下了头。
+「求求你……当我的哥哥吧。」
+那副模样，简直像是在向神明祈祷。
+    </div>
+
+    <div id="nav">
+      <button onclick="prevPage()">上一页</button>
+      <select id="pageSelect" onchange="jumpPage(this.value)"></select>
+      <button onclick="nextPage()">下一页</button>
+      <div id="pageNum"></div>
+    </div>
+  </div>
 </div>
 
 <script>
-const correctPassword = "1236";
+// 这里建议不要直接放 1236，可以稍微变一下，比如 12*103 这种简单的混淆
+const correctPassword = "1236"; 
 
 let currentPage = 1;
-const totalPages = 3;
+// 记得这里要手动修改成你实际的总页数
+const totalPages = 3; 
 
-// 登录
+// 登录逻辑
 function checkPassword() {
   const input = document.getElementById("password").value;
   if (input === correctPassword) {
     document.getElementById("login").style.display = "none";
-
-    const reader = document.getElementById("reader");
-    reader.classList.add("show");
-
+    document.getElementById("reader").style.display = "block";
     window.scrollTo(0, 0);
   } else {
     alert("密码错误");
   }
 }
 
-// 显示页面
+// 统一的显示页面函数
 function showPage(n) {
+  // 隐藏所有页
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page" + n).classList.add("active");
+  // 显示目标页
+  const targetPage = document.getElementById("page" + n);
+  if(targetPage) targetPage.classList.add("active");
 
-  // ⭐ 翻页回到顶部（关键）
+  // 更新页码文字
+  const pageNumEl = document.getElementById("pageNum");
+  if(pageNumEl) pageNumEl.innerText = n + " / " + totalPages;
+
+  // 更新下拉菜单选中的值
+  const selectEl = document.getElementById("pageSelect");
+  if(selectEl) selectEl.value = n;
+
+  // 保存进度到本地
+  localStorage.setItem("lastPage", n);
+
+  // 翻页回到顶部
   window.scrollTo(0, 0);
 }
 
-// 下一页
 function nextPage() {
   if (currentPage < totalPages) {
     currentPage++;
@@ -345,7 +467,6 @@ function nextPage() {
   }
 }
 
-// 上一页
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
@@ -358,54 +479,42 @@ function jumpPage(n) {
   showPage(currentPage);
 }
 
+// 初始化下拉菜单
 function initSelect() {
   const select = document.getElementById("pageSelect");
   for (let i = 1; i <= totalPages; i++) {
     const option = document.createElement("option");
     option.value = i;
-    option.text = i;
+    option.text = "第 " + i + " 页";
     select.appendChild(option);
   }
 }
 
-// 键盘翻页
+// 快捷键翻页
 document.addEventListener("keydown", function(e) {
-  if (e.key === "ArrowRight") nextPage();
-  if (e.key === "ArrowLeft") prevPage();
+  if (document.getElementById("reader").style.display === "block") {
+    if (e.key === "ArrowRight") nextPage();
+    if (e.key === "ArrowLeft") prevPage();
+  }
 });
 
-// 禁右键
-document.addEventListener("contextmenu", e => e.preventDefault());
-
-// 禁复制
-document.addEventListener("copy", e => e.preventDefault());
-
-// 禁长按菜单（手机）
-document.addEventListener("touchstart", function(e) {
+// 基础防盗功能
+document.addEventListener("contextmenu", e => e.preventDefault()); // 禁右键
+document.addEventListener("copy", e => e.preventDefault());         // 禁复制
+document.addEventListener("touchstart", function(e) {              // 禁移动端长按
   if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
 
 window.onload = function() {
   initSelect();
-
+  
+  // 读取上次阅读进度
   const saved = localStorage.getItem("lastPage");
-  if (saved) {
+  if (saved && Number(saved) <= totalPages) {
     currentPage = Number(saved);
   }
-
   showPage(currentPage);
 };
-
-function showPage(n) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page" + n).classList.add("active");
-
-  document.getElementById("pageNum").innerText = n + " / " + totalPages;
-
-  document.getElementById("pageSelect").value = n;
-
-  window.scrollTo(0, 0);
-}
 </script>
 
 </body>
